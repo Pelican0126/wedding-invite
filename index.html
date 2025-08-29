@@ -2,108 +2,180 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
+  <!-- 视口：保证手机端按设备宽度渲染 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>✦ 张智霖 ❤ 陈奕彤 ✦ 婚礼邀请函 ✦</title>
-  <meta name="theme-color" content="#ffffff" />
-  <meta name="description" content="诚邀您于 2025年9月20日 西安西咸诺富特酒店 · 金湾厅 与我们共享幸福时刻。"/>
+
+  <!-- 状态栏/任务栏主题色（部分安卓浏览器有效） -->
+  <meta name="theme-color" content="#f6f6f2" />
+
+  <!-- 分享/搜索引擎描述（微信也会兜底读取） -->
+  <meta name="description" content="诚邀您于 2025年9月20日 · 西安西咸诺富特酒店（金湾厅） 与我们共享幸福时刻。" />
+
+  <!-- ===== 社交卡片（微信/QQ/浏览器分享卡片）建议保留 =====
+       注意：og:image 需“公网可访问的绝对地址”（建议 800×800 正方形）
+       如用 Gitee/GitHub Pages，请把 images/share.jpg 换成你的实际链接 -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="张智霖 ❤ 陈奕彤 · 婚礼邀请函" />
+  <meta property="og:title" content="张智霖 ❤ 陈奕彤｜婚礼邀请函" />
+  <meta property="og:description" content="2025年9月20日 · 西安西咸诺富特酒店（金湾厅）。诚邀您与我们共享幸福时刻。" />
+  <meta property="og:image" content="images/share.jpg" />
+  <meta property="og:url" content="." />
+
+  <!-- Twitter 卡片（部分平台亦参考） -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="张智霖 ❤ 陈奕彤｜婚礼邀请函">
+  <meta name="twitter:description" content="2025年9月20日 · 西安西咸诺富特酒店（金湾厅）。诚邀您与我们共享幸福时刻。">
+  <meta name="twitter:image" content="images/share.jpg">
+
+  <!-- 小图标（可复用 share.jpg 或自定义 favicon.ico/png） -->
+  <link rel="icon" href="images/share.jpg">
+
+  <!-- Web 字体（中文手写风&英文字体）。如国内网络加载慢，会自动回退到本地字体。 -->
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    /* 
-     ========================= 主题变量 =========================
-     说明：
-     - 所有颜色、字号、字体都集中在这里，方便统一修改
-     - :root 下的 CSS 变量可以被 JS 动态覆盖
-     */
-    :root {
-      /* —— 通用颜色 —— */
-      --c-primary: #7B002C;   /* 主色（深红/酒红） */
-      --c-secondary: #555;    /* 次要文字颜色 */
-      --c-muted: #666;        /* 注释/说明颜色 */
-      --c-bg: #fdfaf3;        /* 整体背景色（奶白） */
-      --c-card: #ffffff;      /* 卡片背景色 */
-      --c-shadow: rgba(0,0,0,0.1); /* 阴影颜色 */
-      --c-btn-text: #ffffff;  /* 按钮文字颜色 */
+    /* ============================ 主题变量（统一改色/字号/圆角等） ============================ */
+    :root{
+      /* —— 颜色 —— */
+      --c-primary: #2f4f4f;     /* 主色：深绿（你之前喜欢的那种“墨绿”） */
+      --c-secondary: #556;      /* 次文字色 */
+      --c-muted: #8a8a8a;       /* 注释说明 */
+      --c-bg: #f6f6f2;          /* 奶白背景 */
+      --c-card: #ffffff;        /* 卡片背景 */
+      --c-gold: #d4af37;        /* 金色（封面圆环） */
+      --c-shadow: rgba(0,0,0,.10);
+      --c-btn-text: #fff;
 
-      /* —— 分区色（可单独调整） —— */
-      --c-title: var(--c-primary);  /* 大标题 */
-      --c-body: var(--c-primary);   /* 正文 */
-      --c-date: var(--c-primary);   /* 日期 */
-      --c-lunar: var(--c-muted);    /* 农历日期 */
-      --c-timeline-title: var(--c-primary); /* 流程标题 */
-      --c-timeline-desc: var(--c-secondary);/* 流程描述 */
-      --c-btn-bg: var(--c-primary); /* 按钮背景 */
+      /* —— 各区块可单独覆盖（留空即继承上面的主色） —— */
+      --c-title: var(--c-primary);
+      --c-body: var(--c-primary);
+      --c-date: var(--c-primary);
+      --c-lunar: var(--c-muted);
+      --c-timeline-title: var(--c-primary);
+      --c-timeline-desc: var(--c-secondary);
+      --c-btn-bg: var(--c-primary);
 
-      /* —— 字号 —— */
-      --fs-title: 28px;   /* 主标题（保证手机上一行） */
-      --fs-body: 16px;    /* 正文 */
-      --fs-date: 20px;    /* 公历日期 */
-      --fs-lunar: 14px;   /* 农历日期 */
+      /* —— 字号（按手机优先）—— */
+      --fs-title: 30px;  /* 主标题第1行（保证手机尽量单行）*/
+      --fs-sub: 26px;    /* 主标题第2行“婚礼邀请函” */
+      --fs-body: 16px;   /* 正文 */
+      --fs-date: 20px;   /* 公历日期 */
+      --fs-lunar: 14px;  /* 农历/注释 */
       --fs-step-title: 15px; /* 流程标题 */
-      --fs-step-desc: 13px;  /* 流程描述 */
-      --fs-btn: 14px;        /* 按钮 */
+      --fs-step-desc: 13px;  /* 流程说明 */
+      --fs-btn: 14px;        /* 按钮字 */
 
       /* —— 字体 —— */
-      --ff-title: "KaiTi", serif; 
-      --ff-body: "Times New Roman", "Microsoft YaHei", serif;
+      --ff-cn-script: "Ma Shan Zheng", "KaiTi", "STKaiti", "Songti SC", "Microsoft YaHei", serif;      /* 中文手写/楷体 */
+      --ff-en-script: "Great Vibes", cursive;                                                           /* 英文花体（备用） */
+      --ff-body: "Playfair Display","Times New Roman","Microsoft YaHei",serif;                          /* 正文 */
 
       /* —— 圆角 —— */
-      --radius: 8px;
+      --radius: 10px;
     }
 
-    /* 基础样式 */
-    body { margin: 0; font-family: var(--ff-body); background: var(--c-bg); color: var(--c-body); text-align: center; }
-    .wrap { max-width: 480px; margin: 0 auto; padding: 16px; }
+    /* ============================ 基础排版 ============================ */
+    html,body{ height:100%; }
+    body{
+      margin:0; background:var(--c-bg); color:var(--c-body);
+      font-family: var(--ff-body); text-align:center;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .wrap{ max-width: 480px; margin: 0 auto; padding: 16px 16px 60px; }
 
-    /* 大标题 */
-    .save-date { font-size: var(--fs-title); font-family: var(--ff-title); margin: 20px 0 12px; letter-spacing: 2px; color: var(--c-title); text-shadow: 1px 1px 4px var(--c-shadow); }
+    /* ============================ 花体艺术字标题 ============================
+       思路：中文用「Ma Shan Zheng」手写体；若遇到英文/符号再退到 Great Vibes。
+       为了手机可读：两行分别控制字号，并允许自动换行。 */
+    .title{
+      margin: 18px 0 10px;
+      color: var(--c-title); letter-spacing: 1px;
+      text-shadow: 1px 1px 4px var(--c-shadow);
+      line-height: 1.25;
+    }
+    .title .line1{
+      font-family: var(--ff-cn-script), var(--ff-en-script), serif;
+      font-size: var(--fs-title);
+      word-break: keep-all; white-space: nowrap;   /* 尽量一行显示 */
+    }
+    .title .line2{
+      font-family: var(--ff-cn-script), serif;
+      font-size: var(--fs-sub);
+      margin-top: 4px;
+    }
 
-    /* 圆形封面照 */
-    .photo-circle { width: 200px; height: 200px; border-radius: 50%; margin: 16px auto; overflow: hidden; border: 6px solid var(--c-primary); box-shadow: 0 4px 12px var(--c-shadow); display: grid; place-items: center; background: #fafafa; }
-    .photo-circle img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
+    /* ============================ 封面圆图 ============================ */
+    .photo-circle{
+      width: 200px; height: 200px; margin: 16px auto 12px;
+      border: 6px solid var(--c-gold); border-radius: 50%;
+      background: #fafafa; overflow: hidden;
+      box-shadow: 0 6px 18px var(--c-shadow);
+      display:grid; place-items:center;
+    }
+    .photo-circle img{ width:100%; height:100%; object-fit: cover; object-position: 50% 20%; }
 
-    /* 方形并排照片 */
-    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0 8px; }
-    .sq { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: var(--radius); background: var(--c-card); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-    .sq img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* ============================ 正文 & 日期 ============================ */
+    .invite-text{ font-size: var(--fs-body); line-height: 1.7; margin: 10px 0 16px; color: var(--c-body); }
+    .date{ font-size: var(--fs-date); color: var(--c-date); margin: 10px 0 4px; }
+    .lunar-date{ font-size: var(--fs-lunar); color: var(--c-lunar); margin-bottom: 10px; }
 
-    /* 文案与日期 */
-    .invite-text { font-size: var(--fs-body); color: var(--c-body); margin: 12px 0 20px; line-height: 1.6; padding: 0 8px; }
-    .date { font-size: var(--fs-date); color: var(--c-date); margin: 12px 0 8px; }
-    .lunar-date { font-size: var(--fs-lunar); color: var(--c-lunar); margin-bottom: 12px; }
+    /* ============================ 两张方形并排照片（日期下面） ============================ */
+    .pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0 14px; }
+    .sq{ width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: var(--radius); background: var(--c-card); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .sq img{ width:100%; height:100%; object-fit: cover; display:block; }
 
-    /* 相册轮播（支持手势滑动） */
-    .gallery { position: relative; overflow: hidden; margin: 12px auto 20px; max-width: 100%; border-radius: var(--radius); box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: #f6f7f8; touch-action: pan-y; /* 允许纵向滚，禁用横向浏览器手势 */ }
-    .gallery-track { display: flex; transition: transform 0.35s ease; will-change: transform; }
-    .gallery-track.dragging { transition: none; cursor: grabbing; }
-    .slide { min-width: 100%; display: grid; place-items: center; background: #fff; user-select: none; }
-    .slide img { width: 100%; height: auto; object-fit: contain; aspect-ratio: 3/4; pointer-events: none; }
+    /* ============================ 相册轮播（支持滑动手势） ============================ */
+    .gallery{ position:relative; overflow:hidden; border-radius: var(--radius); background:#f6f7f8; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+    .gallery-track{ display:flex; transition: transform .35s ease; will-change: transform; }
+    .gallery-track.dragging{ transition:none; cursor:grabbing; }
+    .slide{ min-width:100%; display:grid; place-items:center; background:#fff; user-select:none; }
+    .slide img{ width:100%; height:auto; object-fit: contain; aspect-ratio: 3/4; pointer-events:none; }
+    .dots{ display:flex; justify-content:center; gap:6px; margin:8px 0 4px; }
+    .dot{ width:8px; height:8px; border-radius:50%; background:#cfcfcf; }
+    .dot.active{ background: var(--c-primary); }
 
-    /* 轮播圆点 */
-    .dots { display: flex; justify-content: center; gap: 5px; margin-top: 8px; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; cursor: pointer; }
-    .dot.active { background: var(--c-primary); }
+    /* ============================ 时间轴流程 ============================ */
+    .timeline{ display:flex; flex-direction:column; align-items:center; gap:12px; margin:18px 0; }
+    .timeline-item{
+      width:100%; max-width:420px; text-align:left;
+      display:grid; grid-template-columns: 40px 1fr; gap:10px; align-items:center;
+      padding:10px 12px; background:var(--c-card); border-radius: var(--radius);
+      box-shadow: 0 1px 6px rgba(0,0,0,.06);
+    }
+    .icon{ width: 30px; height: 30px; stroke: var(--c-timeline-title); }
+    .step-title{ font-weight:700; color:var(--c-timeline-title); font-size: var(--fs-step-title); }
+    .step-desc{ color:var(--c-timeline-desc); font-size: var(--fs-step-desc); line-height:1.5; }
 
-    /* 流程时间轴 */
-    .timeline { display: flex; flex-direction: column; align-items: center; margin: 20px 0; gap: 12px; }
-    .timeline-item { width: 100%; max-width: 400px; display: grid; grid-template-columns: 40px 1fr; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius); background: var(--c-card); box-shadow: 0 1px 6px rgba(0,0,0,0.06); text-align: left; }
-    .icon { width: 32px; height: 32px; margin: 0 auto; stroke: var(--c-timeline-title); }
-    .step-title { font-weight: 700; color: var(--c-timeline-title); font-size: var(--fs-step-title); }
-    .step-desc { color: var(--c-timeline-desc); font-size: var(--fs-step-desc); line-height: 1.4; }
+    /* ============================ 地点 & 联系 ============================ */
+    .location{ margin-top:20px; font-size:15px; line-height:1.7; color:var(--c-body); }
+    .btn{
+      display:inline-block; margin-top:10px; padding:10px 18px;
+      background:var(--c-btn-bg); color:var(--c-btn-text);
+      border-radius: 999px; text-decoration:none; font-size:var(--fs-btn);
+      box-shadow: 0 3px 10px rgba(0,0,0,.10);
+    }
 
-    /* 地点与联系 */
-    .location { margin-top: 24px; font-size: 15px; line-height: 1.6; color: var(--c-body); padding: 0 8px; }
-    .btn { display: inline-block; margin-top: 10px; padding: 10px 20px; background: var(--c-btn-bg); color: var(--c-btn-text); border-radius: 20px; text-decoration: none; font-size: var(--fs-btn); }
-    .contact { margin-top: 16px; font-size: 14px; color: var(--c-secondary); line-height: 1.6; }
-    .contact a { text-decoration: none; }
-    .btn-phone { display:inline-block; padding: 8px 14px; margin: 4px 6px; border-radius: 20px; background: var(--c-btn-bg); color: var(--c-btn-text) !important; text-decoration:none; font-size: var(--fs-btn); box-shadow:0 2px 6px rgba(0,0,0,.12); }
-    .btn-phone:active { transform: translateY(1px); }
+    .contact{ margin-top:12px; font-size:14px; color:var(--c-secondary); }
+    .contact a{ text-decoration:none; }
+    .btn-phone{
+      display:inline-block; margin:6px 6px 0; padding:8px 14px;
+      background:var(--c-btn-bg); color:#fff; border-radius: 999px; font-size:var(--fs-btn);
+      box-shadow: 0 2px 6px rgba(0,0,0,.12);
+    }
 
-    /* 页脚 */
-    footer { margin-top: 40px; font-size: 14px; color: var(--c-muted); line-height: 1.6; }
-      
-    /* ===== 背景音乐按钮（右上角） ===== */
-    .bgm-btn { position: fixed; top: 12px; right: 12px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,0.8); backdrop-filter: blur(6px); border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 12px rgba(0,0,0,.08); z-index: 1000; cursor: pointer; }
-    .bgm-btn:active { transform: translateY(1px); }
-    .bgm-btn svg { width: 22px; height: 22px; stroke: var(--c-title); }
+    /* ============================ 页脚 ============================ */
+    footer{ margin-top:32px; color:var(--c-muted); font-size:14px; line-height:1.7; }
+
+    /* ============================ 背景音乐按钮（右上角悬浮） ============================ */
+    .bgm-btn{
+      position: fixed; top: 12px; right: 12px; z-index: 1000;
+      width: 44px; height: 44px; border-radius: 50%;
+      display:grid; place-items:center; background: rgba(255,255,255,.85);
+      backdrop-filter: blur(6px); border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 4px 12px rgba(0,0,0,.08); cursor:pointer;
+    }
+    .bgm-btn:active{ transform: translateY(1px); }
+    .bgm-btn svg{ width:22px; height:22px; stroke: var(--c-title); }
     .bgm-btn[data-state="playing"] .icon-sound{ display: block; }
     .bgm-btn[data-state="playing"] .icon-mute{ display: none; }
     .bgm-btn[data-state="muted"] .icon-sound{ display: none; }
@@ -111,47 +183,37 @@
   </style>
 </head>
 <body>
-  <!-- 背景音乐：将 src 换成你的音乐地址（推荐 mp3），例如 music/bgm.mp3 -->
-  <audio id="bgm" src="music/bgm.mp3" preload="auto" loop></audio>
-  <!-- 右上角静音/播放按钮（默认根据上次记录或尝试自动播放来定） -->
-  <button id="bgmBtn" class="bgm-btn" aria-label="背景音乐：播放" data-state="muted" title="背景音乐">
-    <!-- 声音图标（播放中显示） -->
-    <svg class="icon-sound" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-      <path d="M11 5L6 9H3v6h3l5 4V5z"/>
-      <path d="M15 9a3 3 0 0 1 0 6"/>
-      <path d="M18 7a6 6 0 0 1 0 10"/>
-    </svg>
-    <!-- 静音图标（静音时显示） -->
-    <svg class="icon-mute" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M11 5L6 9H3v6h3l5 4V5z"/>
-      <path d="M19 9l-6 6"/>
-      <path d="M13 9l6 6"/>
-    </svg>
-  </button>
   <div class="wrap">
-    <div class="save-date">✦ 张智霖 ❤ 陈奕彤 ✦ <br>
-                            婚礼邀请函</div>
+    <!-- =============== 花体艺术字标题（两行） =============== -->
+    <div class="title">
+      <div class="line1">✦ 张智霖 ❤ 陈奕彤 ✦</div>
+      <div class="line2">婚礼邀请函</div>
+    </div>
 
+    <!-- =============== 圆形封面照：替换 images/cover.jpg =============== -->
     <div class="photo-circle"><img src="images/cover.jpg" alt="封面照"></div>
 
+    <!-- =============== 文案：可按需改短改长 =============== -->
     <div class="invite-text">
       春风化雨，四季流转；因缘际会，我们携手相知。<br>
       时光深处，爱意恒长；在亲友的见证下，我们即将许下誓言。<br>
-      诚邀您拨冗莅临，与我们共享这份喜悦与感动。<br>
-      愿欢声笑语，伴随这一天永恒铭记。<br>
+      诚邀您拨冗莅临，与我们共享这份喜悦与感动。
     </div>
 
+    <!-- =============== 日期（公历/农历，可自改） =============== -->
     <div class="date">2025年9月20日</div>
     <div class="lunar-date">辛丑年八月廿九 · 金秋吉日</div>
 
-    <!-- 已按要求：方形并排照片移动到日期/农历之后 -->
+    <!-- =============== 两张方形并排照片：替换图片路径 =============== -->
     <div class="pair">
       <div class="sq"><img src="images/square1.jpg" alt="方形照片1"></div>
       <div class="sq"><img src="images/square2.jpg" alt="方形照片2"></div>
     </div>
 
+    <!-- =============== 滑动相册（支持手势） =============== -->
     <div class="gallery" id="gallery">
       <div class="gallery-track" id="galleryTrack">
+        <!-- 建议竖图 3:4；如横图改成 4:3 亦可 -->
         <div class="slide"><img src="images/photo1.jpg" alt="我们的照片1"></div>
         <div class="slide"><img src="images/photo2.jpg" alt="我们的照片2"></div>
         <div class="slide"><img src="images/photo3.jpg" alt="我们的照片3"></div>
@@ -159,184 +221,143 @@
     </div>
     <div class="dots" id="dots"></div>
 
+    <!-- =============== 时间轴流程 =============== -->
     <div class="timeline">
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h18l-2-4h-7l-2-3H6z"/><circle cx="7" cy="16" r="2"/><circle cx="17" cy="16" r="2"/></svg>
+        <!-- 车 icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 13h18l-2-4h-7l-2-3H6z"/><circle cx="7" cy="16" r="2"/><circle cx="17" cy="16" r="2"/>
+        </svg>
         <div>
           <div class="step-title">08:30 接亲</div>
-          <div class="step-desc">自此同车同路，朝向同一个家。</div>
+          <div class="step-desc">同车同路，自此朝向同一个家。</div>
         </div>
       </div>
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12l2 2 6-6"/><rect x="3" y="8" width="18" height="10" rx="2"/><path d="M7 8V6a5 5 0 0 1 10 0v2"/></svg>
+        <!-- 门禁/签到 icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 12l2 2 6-6"/><rect x="3" y="8" width="18" height="10" rx="2"/><path d="M7 8V6a5 5 0 0 1 10 0v2"/>
+        </svg>
         <div>
           <div class="step-title">10:00 迎宾</div>
-          <div class="step-desc">宾朋渐至，笑语盈门，喜气迎人。</div>
+          <div class="step-desc">宾朋至，笑语盈门，喜气盈盈。</div>
         </div>
       </div>
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><path d="M10.5 10.5l3-3M7 15c2 2 8 2 10 0"/></svg>
+        <!-- 戒指/誓言 icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><path d="M10.5 10.5l3-3M7 15c2 2 8 2 10 0"/>
+        </svg>
         <div>
           <div class="step-title">11:30 仪式</div>
           <div class="step-desc">交换誓言与戒指，愿此心此情，岁岁年年。</div>
         </div>
       </div>
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16M7 8v13M17 8v13M3 21h18"/><path d="M9 12h6"/></svg>
+        <!-- 餐桌 icon -->
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 3h16M7 8v13M17 8v13M3 21h18"/><path d="M9 12h6"/>
+        </svg>
         <div>
           <div class="step-title">12:00 午宴</div>
-          <div class="step-desc">与君同席，共品团圆滋味与欢喜。</div>
+          <div class="step-desc">同席而坐，共品团圆与欢喜。</div>
         </div>
       </div>
     </div>
 
+    <!-- =============== 地点与联系方式 =============== -->
     <div class="location">
       西安西咸诺富特酒店 · 金湾厅<br>
-      我们真诚期盼您的到来，<br>
-      让欢聚与祝福成为这一天最温暖的注脚。<br>
-      <!-- 微信内置地图定位：调用微信JS-SDK的 openLocation，可在分享环境里直接跳转微信地图 -->
+      <small>（坐标源自你提供的 DMS：E108°46′55.582″, N34°20′5.489″ → 换算 &amp; GCJ-02 校正）</small><br>
+      <!-- 方案C：腾讯地图直达链接。无需任何签名/后端，微信内点击即可弹出地图定位。 -->
       <a class="btn" id="mapLink"
-        href="https://apis.map.qq.com/uri/v1/marker?marker=coord:34.308403,108.785022;title=%E8%A5%BF%E5%AE%89%E8%A5%BF%E5%92%B8%E8%AF%BA%E5%AF%8C%E7%89%B9%E9%85%92%E5%BA%97%20%C2%B7%20%E9%87%91%E6%B9%BE%E5%8E%85;addr=%E9%99%95%E8%A5%BF%E7%9C%81%E8%A5%BF%E5%92%B8%E6%96%B0%E5%8C%BA%20%E6%B2%A3%E6%B3%BE%E5%A4%A7%E9%81%93%E8%A5%BF%E4%B8%80%E8%B7%AF1%E5%8F%B7&referer=wedding"
-        target="_blank" rel="noopener">点击导航</a>
+         href="https://apis.map.qq.com/uri/v1/marker?marker=coord:34.333430871,108.786828728;title=%E8%A5%BF%E5%AE%89%E8%A5%BF%E5%92%B8%E8%AF%BA%E5%AF%8C%E7%89%B9%E9%85%92%E5%BA%97%20%C2%B7%20%E9%87%91%E6%B9%BE%E5%8E%85;addr=%E9%99%95%E8%A5%BF%E7%9C%81%E8%A5%BF%E5%92%B8%E6%96%B0%E5%8C%BA%20%E6%B2%A3%E6%B3%BE%E5%A4%A7%E9%81%93%E8%A5%BF%E4%B8%80%E8%B7%AF1%E5%8F%B7&referer=wedding"
+         target="_blank" rel="noopener">微信内打开地图</a>
       <div style="font-size:12px;color:#999;margin-top:6px;line-height:1.4;">
-        ※ 已使用 <b>腾讯地图直达链接</b>，在微信中点击可直接打开定位；无需公众号签名。
+        当前坐标（GCJ-02）：<code>108.786828728</code>，<code>34.333430871</code>。
       </div>
+
       <div class="contact">
         <a class="btn-phone" href="tel:13279290480">☎ 男方：132-7929-0480</a>
         <a class="btn-phone" href="tel:19929073696">☎ 女方：199-2907-3696</a>
       </div>
     </div>
 
+    <!-- =============== 结尾祝福语 =============== -->
     <footer>
       愿山高水远，长伴我们的真心；<br>
       愿岁月静好，铭记我们的誓言。<br>
-      怀揣感恩与喜悦，敬候您的光临。<br>
+      怀揣感恩与喜悦，敬候您的光临。
     </footer>
   </div>
 
+  <!-- =============== 背景音乐（把 mp3 放在仓库根目录，文件名固定为 backgroundmusic.mp3） =============== -->
+  <audio id="bgm" src="backgroundmusic.mp3" preload="auto" loop></audio>
+  <!-- 右上角：播放/静音 按钮（会记忆上次状态） -->
+  <button id="bgmBtn" class="bgm-btn" aria-label="背景音乐：播放" data-state="muted" title="背景音乐">
+    <!-- 播放状态图标 -->
+    <svg class="icon-sound" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+      <path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15 9a3 3 0 0 1 0 6"/><path d="M18 7a6 6 0 0 1 0 10"/>
+    </svg>
+    <!-- 静音状态图标 -->
+    <svg class="icon-mute" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M19 9l-6 6"/><path d="M13 9l6 6"/>
+    </svg>
+  </button>
+
   <script>
-    /* ================== 背景音乐控制 ================== 
-     * - 音乐文件：把 <audio id="bgm"> 的 src 改成你的 mp3 地址，如 music/bgm.mp3
-     * - 自动播放策略：
-     *   1) 微信内：监听 WeixinJSBridgeReady 尝试播放
-     *   2) 其他浏览器：首次触摸/点击页面后尝试播放
-     * - 静音记忆：localStorage.bgmMuted = '1' 表示静音；'0' 表示播放
-     */
-    const bgm = document.getElementById('bgm');
-    const bgmBtn = document.getElementById('bgmBtn');
-    const MUTED_KEY = 'bgm-muted';
-
-    function setBgmUI(state){
-      bgmBtn.dataset.state = state; // 'playing' | 'muted'
-      bgmBtn.setAttribute('aria-label', state === 'playing' ? '背景音乐：暂停' : '背景音乐：播放');
-    }
-
-    function playBgm(){
-      return bgm.play().then(()=>{ setBgmUI('playing'); localStorage.setItem(MUTED_KEY,'0'); })
-        .catch(()=>{ setBgmUI('muted'); });
-    }
-    function pauseBgm(){ bgm.pause(); setBgmUI('muted'); localStorage.setItem(MUTED_KEY,'1'); }
-
-    // 初始化：读取记忆
-    const wasMuted = localStorage.getItem(MUTED_KEY) === '1';
-    if(wasMuted){ pauseBgm(); }
-    else { // 尝试自动播放
-      // 微信内置浏览器
-      document.addEventListener('WeixinJSBridgeReady', function(){ playBgm(); }, false);
-      // 其他浏览器：尽早尝试
-      playBgm();
-    }
-    // 首次用户交互兜底播放
-    function onFirstInteract(){ if(!bgm.paused) return; if(localStorage.getItem(MUTED_KEY) === '1') return; playBgm(); window.removeEventListener('touchstart', onFirstInteract); window.removeEventListener('click', onFirstInteract); }
-    window.addEventListener('touchstart', onFirstInteract, {passive:true});
-    window.addEventListener('click', onFirstInteract, {passive:true});
-
-    // 按钮切换
-    bgmBtn.addEventListener('click', ()=>{ if(bgm.paused) playBgm(); else pauseBgm(); });
-  </script>
-  <script>
-    /* 
-     ================== 轮播：手势滑动切换 ==================
-     - 支持触摸与鼠标拖拽（Pointer Events）
-     - 规则：拖动超过阈值（50px）则切换；否则回弹
-     - 仍保留圆点点击
-     - 如需自动播放，可在文末开启 autoPlay()
+    /* ========================= 轮播（支持触摸/鼠标滑动） =========================
+     * 规则：拖动超过 50px 切换一张，否则回弹；也支持点圆点切换。
      */
     const track = document.getElementById('galleryTrack');
     const dotsWrap = document.getElementById('dots');
     const slides = track.children;
-    let index = 0;           // 当前页
-    let startX = 0;          // 起始指针位置
-    let currentX = 0;        // 实时指针位置
-    let deltaX = 0;          // 位移
-    let isDragging = false;  // 拖拽中
-    const threshold = 50;    // 切换阈值（像素）
-
+    let index = 0, startX = 0, currentX = 0, deltaX = 0, isDragging = false;
+    const threshold = 50;
     function setTranslate(x){ track.style.transform = `translateX(${x}px)`; }
     function snapToIndex(){ track.style.transform = `translateX(${-index * track.clientWidth}px)`; }
-    function updateDots(){ Array.from(dotsWrap.children).forEach((dot,i)=> dot.classList.toggle('active', i===index)); }
-
-    // 初始化圆点
+    function updateDots(){ Array.from(dotsWrap.children).forEach((d,i)=>d.classList.toggle('active', i===index)); }
+    // 构建圆点
     Array.from(slides).forEach((_,i)=>{
       const d = document.createElement('div');
       d.className = 'dot'+(i===0?' active':'');
-      d.addEventListener('click', ()=>{ index = i; track.classList.remove('dragging'); snapToIndex(); updateDots(); });
+      d.addEventListener('click', ()=>{ index=i; track.classList.remove('dragging'); snapToIndex(); updateDots(); });
       dotsWrap.appendChild(d);
     });
-
-    // 初始定位
     snapToIndex();
-
-    function onPointerDown(e){
-      isDragging = true;
-      startX = (e.touches? e.touches[0].clientX : e.clientX);
-      currentX = startX;
-      deltaX = 0;
-      track.classList.add('dragging');
-    }
-    function onPointerMove(e){
-      if(!isDragging) return;
-      currentX = (e.touches? e.touches[0].clientX : e.clientX);
-      deltaX = currentX - startX;
-      setTranslate(-index * track.clientWidth + deltaX);
-    }
-    function onPointerUp(){
-      if(!isDragging) return;
-      track.classList.remove('dragging');
-      if(deltaX > threshold && index > 0){ index -= 1; }
-      else if(deltaX < -threshold && index < slides.length - 1){ index += 1; }
-      snapToIndex();
-      updateDots();
-      isDragging = false; deltaX = 0;
-    }
-
-    // 绑定事件（触摸 & 鼠标）
+    // 事件
     const gallery = document.getElementById('gallery');
-    gallery.addEventListener('touchstart', onPointerDown, {passive:true});
-    gallery.addEventListener('touchmove', onPointerMove, {passive:true});
-    gallery.addEventListener('touchend', onPointerUp, {passive:true});
-    gallery.addEventListener('mousedown', onPointerDown);
-    window.addEventListener('mousemove', onPointerMove);
-    window.addEventListener('mouseup', onPointerUp);
+    function onDown(e){ isDragging = true; startX = (e.touches? e.touches[0].clientX : e.clientX); currentX = startX; deltaX=0; track.classList.add('dragging'); }
+    function onMove(e){ if(!isDragging) return; currentX = (e.touches? e.touches[0].clientX : e.clientX); deltaX = currentX - startX; setTranslate(-index*track.clientWidth + deltaX); }
+    function onUp(){ if(!isDragging) return; track.classList.remove('dragging'); if(deltaX>threshold && index>0) index--; else if(deltaX<-threshold && index<slides.length-1) index++; snapToIndex(); updateDots(); isDragging=false; deltaX=0; }
+    gallery.addEventListener('touchstart', onDown, {passive:true});
+    gallery.addEventListener('touchmove', onMove, {passive:true});
+    gallery.addEventListener('touchend', onUp, {passive:true});
+    gallery.addEventListener('mousedown', onDown);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    // 如需自动播放，解开下两行：
+    // setInterval(()=>{ index=(index+1)%slides.length; snapToIndex(); updateDots(); }, 4000);
 
-    // 可选：自动播放（如需开，请取消下面注释）
-    // function autoPlay(){ setInterval(()=>{ index = (index+1)%slides.length; snapToIndex(); updateDots(); }, 4000); }
-    // autoPlay();
-  </script>
-  
-  <script>
-    // （可选）非微信浏览器里，若用户无法打开腾讯地图 URI，可手动复制地址导航。
-    // 这里保留一个简单的兜底：iOS 打开 Apple Maps，Android 使用 geo: 协议
-    (function(){
-      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-      var link = document.getElementById('mapLink');
-      if(!link) return;
-      link.addEventListener('click', function(){
-        // 主路径是腾讯地图 URI，通常微信/QQ 浏览器可直接打开；无额外处理
-      });
-      // 也可根据需要添加更多兜底逻辑
-    })();
+    /* ========================= 背景音乐控制 =========================
+     * - 文件：backgroundmusic.mp3（放在仓库根目录即可）
+     * - 策略：首次尝试自动播放；若受浏览器策略阻止，则在用户第一次触摸/点击时播放；
+     * - 记忆：localStorage 记录静音状态。
+     */
+    const bgm = document.getElementById('bgm');
+    const bgmBtn = document.getElementById('bgmBtn');
+    const MUTED_KEY = 'bgm-muted';
+    function setBgmUI(state){ bgmBtn.dataset.state = state; bgmBtn.setAttribute('aria-label', state==='playing' ? '背景音乐：暂停' : '背景音乐：播放'); }
+    function playBgm(){ return bgm.play().then(()=>{ setBgmUI('playing'); localStorage.setItem(MUTED_KEY,'0'); }).catch(()=>{ setBgmUI('muted'); }); }
+    function pauseBgm(){ bgm.pause(); setBgmUI('muted'); localStorage.setItem(MUTED_KEY,'1'); }
+    // 初始化
+    if(localStorage.getItem(MUTED_KEY)==='1'){ pauseBgm(); } else { playBgm(); }
+    // 首次交互兜底自动播放
+    function onFirstInteract(){ if(!bgm.paused){ cleanup(); return; } if(localStorage.getItem(MUTED_KEY)==='1'){ cleanup(); return; } playBgm().finally(cleanup); }
+    function cleanup(){ window.removeEventListener('touchstart', onFirstInteract); window.removeEventListener('click', onFirstInteract); }
+    window.addEventListener('touchstart', onFirstInteract, {passive:true}); window.addEventListener('click', onFirstInteract, {passive:true});
+    // 按钮切换
+    bgmBtn.addEventListener('click', ()=>{ if(bgm.paused) playBgm(); else pauseBgm(); });
   </script>
 </body>
-</html>
 </html>
