@@ -4,32 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>✦ 张智霖 ❤ 陈奕彤 ✦ 婚礼邀请函 ✦</title>
-
-  <!-- 手机状态栏颜色（部分安卓浏览器有效） -->
   <meta name="theme-color" content="#ffffff" />
-
-  <!-- 网页描述（搜索引擎、分享卡片描述兜底用） -->
   <meta name="description" content="诚邀您于 2025年9月20日 西安西咸诺富特酒店 · 金湾厅 与我们共享幸福时刻。"/>
-
-  <!-- ===== 微信 / QQ / 朋友圈 / 浏览器卡片分享所需 ===== -->
-  <!-- Open Graph 标准标签 -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="张智霖 ❤ 陈奕彤 | 婚礼邀请函" />
-  <meta property="og:title" content="张智霖 ❤ 陈奕彤｜婚礼邀请函" />
-  <meta property="og:description" content="2025年9月20日 · 西安西咸诺富特酒店 · 金湾厅。诚邀您与我们共享幸福时刻。" />
-  <!-- og:image 必须是公网可访问的绝对地址（推荐正方形，>=600x600px，JPG/PNG） -->
-  <meta property="og:image" content="https://julineshang.gitee.io/wedding-invite/images/share.jpg" />
-  <meta property="og:url" content="https://julineshang.gitee.io/wedding-invite/" />
-
-  <!-- Twitter 卡片（微信也部分识别） -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="张智霖 ❤ 陈奕彤｜婚礼邀请函">
-  <meta name="twitter:description" content="2025年9月20日 · 西安西咸诺富特酒店 · 金湾厅。诚邀您与我们共享幸福时刻。">
-  <meta name="twitter:image" content="https://julineshang.gitee.io/wedding-invite/images/share.jpg">
-
-  <!-- Favicon 小图标（部分平台兜底显示缩略图） -->
-  <link rel="icon" href="https://julineshang.gitee.io/wedding-invite/images/share.jpg">
-
   <style>
     /* 
      ========================= 主题变量 =========================
@@ -94,11 +70,12 @@
     .date { font-size: var(--fs-date); color: var(--c-date); margin: 12px 0 8px; }
     .lunar-date { font-size: var(--fs-lunar); color: var(--c-lunar); margin-bottom: 12px; }
 
-    /* 相册轮播 */
-    .gallery { position: relative; overflow: hidden; margin: 12px auto 20px; max-width: 100%; border-radius: var(--radius); box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: #f6f7f8; }
-    .gallery-track { display: flex; transition: transform 0.5s ease; }
-    .slide { min-width: 100%; display: grid; place-items: center; background: #fff; }
-    .slide img { width: 100%; height: auto; object-fit: contain; aspect-ratio: 3/4; }
+    /* 相册轮播（支持手势滑动） */
+    .gallery { position: relative; overflow: hidden; margin: 12px auto 20px; max-width: 100%; border-radius: var(--radius); box-shadow: 0 2px 8px rgba(0,0,0,0.08); background: #f6f7f8; touch-action: pan-y; /* 允许纵向滚，禁用横向浏览器手势 */ }
+    .gallery-track { display: flex; transition: transform 0.35s ease; will-change: transform; }
+    .gallery-track.dragging { transition: none; cursor: grabbing; }
+    .slide { min-width: 100%; display: grid; place-items: center; background: #fff; user-select: none; }
+    .slide img { width: 100%; height: auto; object-fit: contain; aspect-ratio: 3/4; pointer-events: none; }
 
     /* 轮播圆点 */
     .dots { display: flex; justify-content: center; gap: 5px; margin-top: 8px; }
@@ -122,37 +99,56 @@
 
     /* 页脚 */
     footer { margin-top: 40px; font-size: 14px; color: var(--c-muted); line-height: 1.6; }
+      
+    /* ===== 背景音乐按钮（右上角） ===== */
+    .bgm-btn { position: fixed; top: 12px; right: 12px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,0.8); backdrop-filter: blur(6px); border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 12px rgba(0,0,0,.08); z-index: 1000; cursor: pointer; }
+    .bgm-btn:active { transform: translateY(1px); }
+    .bgm-btn svg { width: 22px; height: 22px; stroke: var(--c-title); }
+    .bgm-btn[data-state="playing"] .icon-sound{ display: block; }
+    .bgm-btn[data-state="playing"] .icon-mute{ display: none; }
+    .bgm-btn[data-state="muted"] .icon-sound{ display: none; }
+    .bgm-btn[data-state="muted"] .icon-mute{ display: block; }
   </style>
 </head>
 <body>
+  <!-- 背景音乐：将 src 换成你的音乐地址（推荐 mp3），例如 music/bgm.mp3 -->
+  <audio id="bgm" src="music/bgm.mp3" preload="auto" loop></audio>
+  <!-- 右上角静音/播放按钮（默认根据上次记录或尝试自动播放来定） -->
+  <button id="bgmBtn" class="bgm-btn" aria-label="背景音乐：播放" data-state="muted" title="背景音乐">
+    <!-- 声音图标（播放中显示） -->
+    <svg class="icon-sound" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+      <path d="M11 5L6 9H3v6h3l5 4V5z"/>
+      <path d="M15 9a3 3 0 0 1 0 6"/>
+      <path d="M18 7a6 6 0 0 1 0 10"/>
+    </svg>
+    <!-- 静音图标（静音时显示） -->
+    <svg class="icon-mute" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 5L6 9H3v6h3l5 4V5z"/>
+      <path d="M19 9l-6 6"/>
+      <path d="M13 9l6 6"/>
+    </svg>
+  </button>
   <div class="wrap">
-    <!-- 标题 -->
-    <div class="save-date">✦ 张智霖 ❤ 陈奕彤 ✦ <br>婚礼邀请函</div>
+    <div class="save-date">✦ 张智霖 ❤ 陈奕彤 ✦ 婚礼邀请函</div>
 
-    <!-- 圆形封面照 -->
     <div class="photo-circle"><img src="images/cover.jpg" alt="封面照"></div>
 
-    <!-- 邀请文案 -->
     <div class="invite-text">
-      春风化雨，四季流转；<br>
-      因缘际会，我们携手相知。<br>
-      时光深处，爱意恒长；<br>
-      在亲友的见证下，我们即将许下誓言。<br>
+      春风化雨，四季流转；因缘际会，我们携手相知。<br>
+      时光深处，爱意恒长；在亲友的见证下，我们即将许下誓言。<br>
       诚邀您拨冗莅临，与我们共享这份喜悦与感动。<br>
       愿欢声笑语，伴随这一天永恒铭记。<br>
     </div>
 
-    <!-- 日期 -->
     <div class="date">2025年9月20日</div>
     <div class="lunar-date">辛丑年八月廿九 · 金秋吉日</div>
 
-    <!-- 并排方图 -->
+    <!-- 已按要求：方形并排照片移动到日期/农历之后 -->
     <div class="pair">
       <div class="sq"><img src="images/square1.jpg" alt="方形照片1"></div>
       <div class="sq"><img src="images/square2.jpg" alt="方形照片2"></div>
     </div>
 
-    <!-- 轮播相册 -->
     <div class="gallery" id="gallery">
       <div class="gallery-track" id="galleryTrack">
         <div class="slide"><img src="images/photo1.jpg" alt="我们的照片1"></div>
@@ -162,39 +158,49 @@
     </div>
     <div class="dots" id="dots"></div>
 
-    <!-- 时间轴流程 -->
     <div class="timeline">
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4"><path d="M3 13h18l-2-4h-7l-2-3H6z"/><circle cx="7" cy="16" r="2"/><circle cx="17" cy="16" r="2"/></svg>
-        <div><div class="step-title">08:30 接亲</div><div class="step-desc">自此同车同路，朝向同一个家。</div></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h18l-2-4h-7l-2-3H6z"/><circle cx="7" cy="16" r="2"/><circle cx="17" cy="16" r="2"/></svg>
+        <div>
+          <div class="step-title">08:30 接亲</div>
+          <div class="step-desc">自此同车同路，朝向同一个家。</div>
+        </div>
       </div>
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4"><path d="M8 12l2 2 6-6"/><rect x="3" y="8" width="18" height="10" rx="2"/></svg>
-        <div><div class="step-title">10:00 迎宾</div><div class="step-desc">宾朋渐至，笑语盈门，喜气迎人。</div></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12l2 2 6-6"/><rect x="3" y="8" width="18" height="10" rx="2"/><path d="M7 8V6a5 5 0 0 1 10 0v2"/></svg>
+        <div>
+          <div class="step-title">10:00 迎宾</div>
+          <div class="step-desc">宾朋渐至，笑语盈门，喜气迎人。</div>
+        </div>
       </div>
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4"><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/></svg>
-        <div><div class="step-title">11:30 仪式</div><div class="step-desc">交换誓言与戒指，愿此心此情，岁岁年年。</div></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><path d="M10.5 10.5l3-3M7 15c2 2 8 2 10 0"/></svg>
+        <div>
+          <div class="step-title">11:30 仪式</div>
+          <div class="step-desc">交换誓言与戒指，愿此心此情，岁岁年年。</div>
+        </div>
       </div>
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4"><path d="M4 3h16M7 8v13M17 8v13M3 21h18"/></svg>
-        <div><div class="step-title">12:00 午宴</div><div class="step-desc">与君同席，共品团圆滋味与欢喜。</div></div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16M7 8v13M17 8v13M3 21h18"/><path d="M9 12h6"/></svg>
+        <div>
+          <div class="step-title">12:00 午宴</div>
+          <div class="step-desc">与君同席，共品团圆滋味与欢喜。</div>
+        </div>
       </div>
     </div>
 
-    <!-- 地点与联系方式 -->
     <div class="location">
       西安西咸诺富特酒店 · 金湾厅<br>
       我们真诚期盼您的到来，<br>
       让欢聚与祝福成为这一天最温暖的注脚。<br>
-      <a class="btn" href="https://ditu.amap.com/place/B0GKOR9WD7" target="_blank">点击导航</a>
+      <!-- 微信内置地图定位：调用微信JS-SDK的 openLocation，可在分享环境里直接跳转微信地图 -->
+      <a class="btn" href="javascript:void(0)" id="wxMapBtn">打开微信地图</a>
       <div class="contact">
         <a class="btn-phone" href="tel:13279290480">☎ 男方：132-7929-0480</a>
         <a class="btn-phone" href="tel:19929073696">☎ 女方：199-2907-3696</a>
       </div>
     </div>
 
-    <!-- 页脚祝福语 -->
     <footer>
       愿山高水远，长伴我们的真心；<br>
       愿岁月静好，铭记我们的誓言。<br>
@@ -203,27 +209,113 @@
   </div>
 
   <script>
+    /* ================== 背景音乐控制 ================== 
+     * - 音乐文件：把 <audio id="bgm"> 的 src 改成你的 mp3 地址，如 music/bgm.mp3
+     * - 自动播放策略：
+     *   1) 微信内：监听 WeixinJSBridgeReady 尝试播放
+     *   2) 其他浏览器：首次触摸/点击页面后尝试播放
+     * - 静音记忆：localStorage.bgmMuted = '1' 表示静音；'0' 表示播放
+     */
+    const bgm = document.getElementById('bgm');
+    const bgmBtn = document.getElementById('bgmBtn');
+    const MUTED_KEY = 'bgm-muted';
+
+    function setBgmUI(state){
+      bgmBtn.dataset.state = state; // 'playing' | 'muted'
+      bgmBtn.setAttribute('aria-label', state === 'playing' ? '背景音乐：暂停' : '背景音乐：播放');
+    }
+
+    function playBgm(){
+      return bgm.play().then(()=>{ setBgmUI('playing'); localStorage.setItem(MUTED_KEY,'0'); })
+        .catch(()=>{ setBgmUI('muted'); });
+    }
+    function pauseBgm(){ bgm.pause(); setBgmUI('muted'); localStorage.setItem(MUTED_KEY,'1'); }
+
+    // 初始化：读取记忆
+    const wasMuted = localStorage.getItem(MUTED_KEY) === '1';
+    if(wasMuted){ pauseBgm(); }
+    else { // 尝试自动播放
+      // 微信内置浏览器
+      document.addEventListener('WeixinJSBridgeReady', function(){ playBgm(); }, false);
+      // 其他浏览器：尽早尝试
+      playBgm();
+    }
+    // 首次用户交互兜底播放
+    function onFirstInteract(){ if(!bgm.paused) return; if(localStorage.getItem(MUTED_KEY) === '1') return; playBgm(); window.removeEventListener('touchstart', onFirstInteract); window.removeEventListener('click', onFirstInteract); }
+    window.addEventListener('touchstart', onFirstInteract, {passive:true});
+    window.addEventListener('click', onFirstInteract, {passive:true});
+
+    // 按钮切换
+    bgmBtn.addEventListener('click', ()=>{ if(bgm.paused) playBgm(); else pauseBgm(); });
+  </script>
+  <script>
     /* 
-     ================== 轮播逻辑 ==================
-     - 自动轮播 + 手动点击圆点切换
-     - 每 4 秒切换一张
+     ================== 轮播：手势滑动切换 ==================
+     - 支持触摸与鼠标拖拽（Pointer Events）
+     - 规则：拖动超过阈值（50px）则切换；否则回弹
+     - 仍保留圆点点击
+     - 如需自动播放，可在文末开启 autoPlay()
      */
     const track = document.getElementById('galleryTrack');
     const dotsWrap = document.getElementById('dots');
     const slides = track.children;
-    let index = 0;
-    function update(){
-      track.style.transform = `translateX(${-index * 100}%)`;
-      Array.from(dotsWrap.children).forEach((dot,i)=>{ dot.classList.toggle('active', i===index); });
-    }
-    function go(i){ index = (i+slides.length)%slides.length; update(); }
+    let index = 0;           // 当前页
+    let startX = 0;          // 起始指针位置
+    let currentX = 0;        // 实时指针位置
+    let deltaX = 0;          // 位移
+    let isDragging = false;  // 拖拽中
+    const threshold = 50;    // 切换阈值（像素）
+
+    function setTranslate(x){ track.style.transform = `translateX(${x}px)`; }
+    function snapToIndex(){ track.style.transform = `translateX(${-index * track.clientWidth}px)`; }
+    function updateDots(){ Array.from(dotsWrap.children).forEach((dot,i)=> dot.classList.toggle('active', i===index)); }
+
+    // 初始化圆点
     Array.from(slides).forEach((_,i)=>{
       const d = document.createElement('div');
       d.className = 'dot'+(i===0?' active':'');
-      d.addEventListener('click', ()=>go(i));
+      d.addEventListener('click', ()=>{ index = i; track.classList.remove('dragging'); snapToIndex(); updateDots(); });
       dotsWrap.appendChild(d);
     });
-    setInterval(()=>{ go(index+1) }, 4000);
+
+    // 初始定位
+    snapToIndex();
+
+    function onPointerDown(e){
+      isDragging = true;
+      startX = (e.touches? e.touches[0].clientX : e.clientX);
+      currentX = startX;
+      deltaX = 0;
+      track.classList.add('dragging');
+    }
+    function onPointerMove(e){
+      if(!isDragging) return;
+      currentX = (e.touches? e.touches[0].clientX : e.clientX);
+      deltaX = currentX - startX;
+      setTranslate(-index * track.clientWidth + deltaX);
+    }
+    function onPointerUp(){
+      if(!isDragging) return;
+      track.classList.remove('dragging');
+      if(deltaX > threshold && index > 0){ index -= 1; }
+      else if(deltaX < -threshold && index < slides.length - 1){ index += 1; }
+      snapToIndex();
+      updateDots();
+      isDragging = false; deltaX = 0;
+    }
+
+    // 绑定事件（触摸 & 鼠标）
+    const gallery = document.getElementById('gallery');
+    gallery.addEventListener('touchstart', onPointerDown, {passive:true});
+    gallery.addEventListener('touchmove', onPointerMove, {passive:true});
+    gallery.addEventListener('touchend', onPointerUp, {passive:true});
+    gallery.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+
+    // 可选：自动播放（如需开，请取消下面注释）
+    // function autoPlay(){ setInterval(()=>{ index = (index+1)%slides.length; snapToIndex(); updateDots(); }, 4000); }
+    // autoPlay();
   </script>
 </body>
 </html>
