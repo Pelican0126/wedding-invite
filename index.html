@@ -15,7 +15,7 @@
   <meta property="og:image" content="images/share.jpg" />
   <meta property="og:url" content="." />
 
-  <!-- Google Web Fonts：中文书法 + 英文字体 -->
+  <!-- Google Web Fonts：中文书法 + 英文字体（国内网络不佳时会自动回退本地字体） -->
   <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
@@ -57,7 +57,7 @@
     }
 
     body { margin:0; background:var(--c-bg); color:var(--c-body); font-family: var(--ff-body); text-align:center; }
-    .wrap { max-width:480px; margin:0 auto; padding:16px; }
+    .wrap { max-width:480px; margin:0 auto; padding:16px 16px 70px; }
 
     /* 标题：花体艺术字 + 自动换行 */
     .title { margin:18px 0 10px; color:var(--c-title); line-height:1.25; }
@@ -76,20 +76,25 @@
     /* 并排方形照片 */
     .pair { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:8px 0 14px; }
     .sq { aspect-ratio:1/1; overflow:hidden; border-radius:var(--radius); box-shadow:0 2px 8px rgba(0,0,0,.08); }
-    .sq img { width:100%; height:100%; object-fit:cover; }
+    .sq img { width:100%; height:100%; object-fit:cover; display:block; }
 
-    /* 轮播相册（可滑动） */
-    .gallery { position:relative; overflow:hidden; border-radius:var(--radius); background:#f6f7f8; }
-    .gallery-track { display:flex; transition:transform .35s ease; }
-    .slide { min-width:100%; }
-    .slide img { width:100%; aspect-ratio:3/4; object-fit:contain; }
+    /* 轮播相册（支持拖拽/滑动） */
+    .gallery { position:relative; overflow:hidden; border-radius:var(--radius); background:#f6f7f8; box-shadow:0 2px 8px rgba(0,0,0,.08); cursor:grab; }
+    .gallery-track { display:flex; transition:transform .35s ease; will-change: transform; }
+    .gallery-track.dragging { transition:none; cursor:grabbing; }
+    .slide { min-width:100%; display:grid; place-items:center; background:#fff; user-select:none; }
+    .slide img {
+      width:100%; height:auto; object-fit:contain; aspect-ratio:3/4;
+      pointer-events:none;               /* 防止拖图片时出现浏览器拖拽幽灵图 */
+      -webkit-user-drag:none; user-drag:none;
+    }
     .dots { display:flex; justify-content:center; gap:6px; margin:8px 0; }
     .dot { width:8px; height:8px; border-radius:50%; background:#cfcfcf; }
     .dot.active { background:var(--c-primary); }
 
     /* 流程时间轴 */
     .timeline { display:flex; flex-direction:column; gap:12px; margin:18px 0; }
-    .timeline-item { display:grid; grid-template-columns:40px 1fr; gap:10px; padding:10px; background:var(--c-card); border-radius:var(--radius); box-shadow:0 1px 6px rgba(0,0,0,.06); }
+    .timeline-item { display:grid; grid-template-columns:40px 1fr; gap:10px; padding:10px; background:var(--c-card); border-radius:var(--radius); box-shadow:0 1px 6px rgba(0,0,0,.06); text-align:left; }
     .icon { width:30px; height:30px; stroke:var(--c-timeline-title); }
     .step-title { font-weight:700; font-size:var(--fs-step-title); color:var(--c-timeline-title); }
     .step-desc { font-size:var(--fs-step-desc); color:var(--c-timeline-desc); }
@@ -102,6 +107,21 @@
     .btn-phone { display:inline-block; margin:6px 6px 0; padding:8px 14px; background:var(--c-btn-bg); color:#fff; border-radius:999px; text-decoration:none; }
 
     footer { margin-top:32px; color:var(--c-muted); font-size:14px; line-height:1.7; }
+
+    /* 背景音乐按钮（右上角悬浮） */
+    .bgm-btn{
+      position: fixed; top: 12px; right: 12px; z-index: 1000;
+      width: 44px; height: 44px; border-radius: 50%;
+      display:grid; place-items:center; background: rgba(255,255,255,.88);
+      backdrop-filter: blur(6px); border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 4px 12px rgba(0,0,0,.08); cursor:pointer;
+    }
+    .bgm-btn:active{ transform: translateY(1px); }
+    .bgm-btn svg{ width:22px; height:22px; stroke: var(--c-title); }
+    .bgm-btn[data-state="playing"] .icon-sound{ display: block; }
+    .bgm-btn[data-state="playing"] .icon-mute{ display: none; }
+    .bgm-btn[data-state="muted"] .icon-sound{ display: none; }
+    .bgm-btn[data-state="muted"] .icon-mute{ display: block; }
   </style>
 </head>
 <body>
@@ -132,7 +152,7 @@
       <div class="sq"><img src="images/square2.jpg" alt="方形照片2"></div>
     </div>
 
-    <!-- 轮播相册 -->
+    <!-- 轮播相册（支持手势滑动） -->
     <div class="gallery" id="gallery">
       <div class="gallery-track" id="galleryTrack">
         <div class="slide"><img src="images/photo1.jpg" alt="照片1"></div>
@@ -165,7 +185,7 @@
     <!-- 地点 + 联系方式 -->
     <div class="location">
       西安西咸诺富特酒店 · 金湾厅<br>
-      <a class="btn" href="https://map.qq.com/m/detail/poi/poid=16242801723221282781" target="_blank">打开地图</a>
+      <a class="btn" href="https://map.qq.com/m/detail/poi/poid=16242801723221282781" target="_blank" rel="noopener">打开地图</a>
       <div class="contact">
         <a class="btn-phone" href="tel:13279290480">☎ 男方：132-7929-0480</a>
         <a class="btn-phone" href="tel:19929073696">☎ 女方：199-2907-3696</a>
@@ -180,28 +200,136 @@
     </footer>
   </div>
 
-  <!-- JS：轮播相册逻辑 -->
+  <!-- 背景音乐：把 backgroundmusic.mp3 放在仓库根目录（与 index.html 同级） -->
+  <audio id="bgm" src="backgroundmusic.mp3" preload="auto" loop></audio>
+  <!-- 右上角：播放/静音 按钮（记忆上次状态） -->
+  <button id="bgmBtn" class="bgm-btn" aria-label="背景音乐：播放/静音" data-state="muted" title="背景音乐">
+    <!-- 播放图标 -->
+    <svg class="icon-sound" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+      <path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15 9a3 3 0 0 1 0 6"/><path d="M18 7a6 6 0 0 1 0 10"/>
+    </svg>
+    <!-- 静音图标 -->
+    <svg class="icon-mute" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M19 9l-6 6"/><path d="M13 9l6 6"/>
+    </svg>
+  </button>
+
+  <!-- 轮播 & 背景音乐脚本 -->
   <script>
+    /* ========================= 轮播（支持触摸/鼠标拖拽） ========================= */
+    const gallery = document.getElementById('gallery');
     const track = document.getElementById('galleryTrack');
     const dotsWrap = document.getElementById('dots');
     const slides = track.children;
+
     let index = 0;
+    let startX = 0, currentX = 0, deltaX = 0, isDragging = false;
+    let slideW = 0;
+    const thresholdPx = () => Math.max(50, slideW * 0.12); // 拖拽超过阈值切页
+    let autoTimer = null;
 
-    function update(){
-      track.style.transform = `translateX(${-index * 100}%)`;
-      Array.from(dotsWrap.children).forEach((dot,i)=>{ dot.classList.toggle('active', i===index); });
-    }
-    function go(i){ index = (i+slides.length)%slides.length; update(); }
-
-    Array.from(slides).forEach((_,i)=>{
+    // 初始化圆点
+    Array.from(slides).forEach((_, i) => {
       const d = document.createElement('div');
-      d.className = 'dot'+(i===0?' active':'');
-      d.addEventListener('click', ()=>go(i));
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', () => { stopAuto(); index = i; snap(); updateDots(); startAuto(); });
       dotsWrap.appendChild(d);
     });
 
-    // 自动轮播
-    setInterval(()=>{ go(index+1) }, 4000);
+    function updateDots(){
+      Array.from(dotsWrap.children).forEach((dot, i) => dot.classList.toggle('active', i === index));
+    }
+    function measure(){ slideW = gallery.clientWidth; }
+    function setX(px){ track.style.transform = `translateX(${px}px)`; }
+    function snap(){ setX(-index * slideW); }
+
+    function goNext(){ if(index < slides.length - 1) index++; else index = 0; snap(); updateDots(); }
+    function startAuto(){ stopAuto(); autoTimer = setInterval(goNext, 4000); }
+    function stopAuto(){ if(autoTimer){ clearInterval(autoTimer); autoTimer = null; } }
+
+    function onDown(e){
+      isDragging = true;
+      stopAuto();
+      track.classList.add('dragging');
+      startX = (e.touches ? e.touches[0].clientX : e.clientX);
+      currentX = startX; deltaX = 0;
+    }
+    function onMove(e){
+      if(!isDragging) return;
+      currentX = (e.touches ? e.touches[0].clientX : e.clientX);
+      deltaX = currentX - startX;
+      setX(-index * slideW + deltaX);
+    }
+    function onUp(){
+      if(!isDragging) return;
+      track.classList.remove('dragging');
+      if(deltaX > thresholdPx() && index > 0) index--;
+      else if(deltaX < -thresholdPx() && index < slides.length - 1) index++;
+      snap(); updateDots();
+      isDragging = false; deltaX = 0;
+      startAuto();
+    }
+
+    // 事件绑定（移动端+PC）
+    gallery.addEventListener('touchstart', onDown, {passive:true});
+    gallery.addEventListener('touchmove', onMove, {passive:true});
+    gallery.addEventListener('touchend', onUp, {passive:true});
+    gallery.addEventListener('mousedown', onDown);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+
+    // 自适应
+    window.addEventListener('resize', () => { measure(); snap(); });
+    measure(); snap(); updateDots(); startAuto();
+
+    /* ========================= 背景音乐控制 =========================
+     * - 文件：backgroundmusic.mp3（与 index.html 同级）
+     * - 策略：尝试自动播放；若被拦截，第一次触摸/点击时播放；
+     * - 记忆：localStorage 记录静音状态（键：bgm-muted，'1'为静音）。
+     */
+    const bgm = document.getElementById('bgm');
+    const bgmBtn = document.getElementById('bgmBtn');
+    const MUTED_KEY = 'bgm-muted';
+
+    function setBgmUI(state){
+      bgmBtn.dataset.state = state; // 'playing' | 'muted'
+      bgmBtn.setAttribute('aria-label', state === 'playing' ? '背景音乐：暂停' : '背景音乐：播放');
+    }
+    function playBgm(){
+      return bgm.play().then(()=>{
+        setBgmUI('playing'); localStorage.setItem(MUTED_KEY, '0');
+      }).catch(()=>{ setBgmUI('muted'); /* 部分浏览器需用户手势触发 */ });
+    }
+    function pauseBgm(){
+      bgm.pause(); setBgmUI('muted'); localStorage.setItem(MUTED_KEY, '1');
+    }
+
+    // 初始化：如果上次不是静音，尝试自动播
+    if(localStorage.getItem(MUTED_KEY) === '1'){
+      pauseBgm();
+    }else{
+      playBgm();
+    }
+
+    // 首次交互兜底自动播放
+    function onFirstInteract(){
+      if(bgm.paused && localStorage.getItem(MUTED_KEY) !== '1'){
+        playBgm().finally(removeFirstInteract);
+      }else{
+        removeFirstInteract();
+      }
+    }
+    function removeFirstInteract(){
+      window.removeEventListener('touchstart', onFirstInteract);
+      window.removeEventListener('click', onFirstInteract);
+    }
+    window.addEventListener('touchstart', onFirstInteract, {passive:true});
+    window.addEventListener('click', onFirstInteract, {passive:true});
+
+    // 按钮切换播放/静音
+    bgmBtn.addEventListener('click', () => {
+      if(bgm.paused) playBgm(); else pauseBgm();
+    });
   </script>
 </body>
 </html>
