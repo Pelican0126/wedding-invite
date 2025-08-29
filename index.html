@@ -4,64 +4,87 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>✦ 张智霖 ❤ 陈奕彤 ✦ 婚礼邀请函 ✦</title>
+
+  <!-- 手机状态栏颜色（部分安卓浏览器有效） -->
   <meta name="theme-color" content="#ffffff" />
+
+  <!-- 网页描述（搜索引擎、分享卡片描述兜底用） -->
   <meta name="description" content="诚邀您于 2025年9月20日 西安西咸诺富特酒店 · 金湾厅 与我们共享幸福时刻。"/>
+
+  <!-- ===== 微信 / QQ / 朋友圈 / 浏览器卡片分享所需 ===== -->
+  <!-- Open Graph 标准标签 -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="张智霖 ❤ 陈奕彤 | 婚礼邀请函" />
+  <meta property="og:title" content="张智霖 ❤ 陈奕彤｜婚礼邀请函" />
+  <meta property="og:description" content="2025年9月20日 · 西安西咸诺富特酒店 · 金湾厅。诚邀您与我们共享幸福时刻。" />
+  <!-- og:image 必须是公网可访问的绝对地址（推荐正方形，>=600x600px，JPG/PNG） -->
+  <meta property="og:image" content="https://julineshang.gitee.io/wedding-invite/images/share.jpg" />
+  <meta property="og:url" content="https://julineshang.gitee.io/wedding-invite/" />
+
+  <!-- Twitter 卡片（微信也部分识别） -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="张智霖 ❤ 陈奕彤｜婚礼邀请函">
+  <meta name="twitter:description" content="2025年9月20日 · 西安西咸诺富特酒店 · 金湾厅。诚邀您与我们共享幸福时刻。">
+  <meta name="twitter:image" content="https://julineshang.gitee.io/wedding-invite/images/share.jpg">
+
+  <!-- Favicon 小图标（部分平台兜底显示缩略图） -->
+  <link rel="icon" href="https://julineshang.gitee.io/wedding-invite/images/share.jpg">
+
   <style>
-    /*
-     * ========================= 主题变量（默认值） =========================
-     * 说明：
-     * 1) 颜色和字号全部通过 CSS 变量统一管理，便于 JS 动态覆盖；
-     * 2) 做了“通用(primary/secondary/...)”与“分区(title/date/...)”两套变量，兼容性更强；
-     * 3) 想要细分控制时，优先改“分区变量”；不想细分时，仅改通用 primary/secondary 即可。
+    /* 
+     ========================= 主题变量 =========================
+     说明：
+     - 所有颜色、字号、字体都集中在这里，方便统一修改
+     - :root 下的 CSS 变量可以被 JS 动态覆盖
      */
     :root {
-      /* —— 通用色（不想细分时只改这几项） —— */
-      --c-primary: #7B002C;   /* 主文字色（绿色系） */
-      --c-secondary: #555;    /* 次文字色 */
-      --c-muted: #666;        /* 注释/说明 */
-      --c-bg: #fdfaf3;        /* 奶白背景 */
-      --c-card: #ffffff;      /* 卡片背景 */
-      --c-shadow: rgba(0,0,0,0.1);
-      --c-btn-text: #ffffff;  /* 按钮文字 */
+      /* —— 通用颜色 —— */
+      --c-primary: #7B002C;   /* 主色（深红/酒红） */
+      --c-secondary: #555;    /* 次要文字颜色 */
+      --c-muted: #666;        /* 注释/说明颜色 */
+      --c-bg: #fdfaf3;        /* 整体背景色（奶白） */
+      --c-card: #ffffff;      /* 卡片背景色 */
+      --c-shadow: rgba(0,0,0,0.1); /* 阴影颜色 */
+      --c-btn-text: #ffffff;  /* 按钮文字颜色 */
 
-      /* —— 分区色（需要更灵活的分类时使用） —— */
-      --c-title: var(--c-primary);
-      --c-body: var(--c-primary);
-      --c-date: var(--c-primary);
-      --c-lunar: var(--c-muted);
-      --c-timeline-title: var(--c-primary);
-      --c-timeline-desc: var(--c-secondary);
-      --c-btn-bg: var(--c-primary);
+      /* —— 分区色（可单独调整） —— */
+      --c-title: var(--c-primary);  /* 大标题 */
+      --c-body: var(--c-primary);   /* 正文 */
+      --c-date: var(--c-primary);   /* 日期 */
+      --c-lunar: var(--c-muted);    /* 农历日期 */
+      --c-timeline-title: var(--c-primary); /* 流程标题 */
+      --c-timeline-desc: var(--c-secondary);/* 流程描述 */
+      --c-btn-bg: var(--c-primary); /* 按钮背景 */
 
-      /* —— 字号（手机优先） —— */
-      --fs-title: 28px;       /* 主标题字号（确保手机单行） */
-      --fs-body: 16px;        /* 正文 */
-      --fs-date: 20px;        /* 公历日期 */
-      --fs-lunar: 14px;       /* 农历/注释 */
-      --fs-step-title: 15px;  /* 流程标题 */
-      --fs-step-desc: 13px;   /* 流程描述 */
-      --fs-btn: 14px;         /* 按钮 */
+      /* —— 字号 —— */
+      --fs-title: 28px;   /* 主标题（保证手机上一行） */
+      --fs-body: 16px;    /* 正文 */
+      --fs-date: 20px;    /* 公历日期 */
+      --fs-lunar: 14px;   /* 农历日期 */
+      --fs-step-title: 15px; /* 流程标题 */
+      --fs-step-desc: 13px;  /* 流程描述 */
+      --fs-btn: 14px;        /* 按钮 */
 
-      /* —— 字体族（可按区域替换） —— */
-      --ff-title: "KaiTi", serif;          /* 标题字体 */
-      --ff-body: "Times New Roman", "Microsoft YaHei", serif;  /* 正文字体 */
+      /* —— 字体 —— */
+      --ff-title: "KaiTi", serif; 
+      --ff-body: "Times New Roman", "Microsoft YaHei", serif;
 
-      /* —— 圆角/间距 —— */
+      /* —— 圆角 —— */
       --radius: 8px;
     }
 
-    /* 基础排版 */
+    /* 基础样式 */
     body { margin: 0; font-family: var(--ff-body); background: var(--c-bg); color: var(--c-body); text-align: center; }
     .wrap { max-width: 480px; margin: 0 auto; padding: 16px; }
 
-    /* 顶部大标题（绿色，字体稍小，适合手机单行显示） */
+    /* 大标题 */
     .save-date { font-size: var(--fs-title); font-family: var(--ff-title); margin: 20px 0 12px; letter-spacing: 2px; color: var(--c-title); text-shadow: 1px 1px 4px var(--c-shadow); }
 
-    /* 封面圆图 */
+    /* 圆形封面照 */
     .photo-circle { width: 200px; height: 200px; border-radius: 50%; margin: 16px auto; overflow: hidden; border: 6px solid var(--c-primary); box-shadow: 0 4px 12px var(--c-shadow); display: grid; place-items: center; background: #fafafa; }
     .photo-circle img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: block; }
 
-    /* 并排方形照片（根据需求已移动到日期/农历之后） */
+    /* 方形并排照片 */
     .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0 8px; }
     .sq { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: var(--radius); background: var(--c-card); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     .sq img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -92,21 +115,24 @@
     /* 地点与联系 */
     .location { margin-top: 24px; font-size: 15px; line-height: 1.6; color: var(--c-body); padding: 0 8px; }
     .btn { display: inline-block; margin-top: 10px; padding: 10px 20px; background: var(--c-btn-bg); color: var(--c-btn-text); border-radius: 20px; text-decoration: none; font-size: var(--fs-btn); }
-
     .contact { margin-top: 16px; font-size: 14px; color: var(--c-secondary); line-height: 1.6; }
     .contact a { text-decoration: none; }
     .btn-phone { display:inline-block; padding: 8px 14px; margin: 4px 6px; border-radius: 20px; background: var(--c-btn-bg); color: var(--c-btn-text) !important; text-decoration:none; font-size: var(--fs-btn); box-shadow:0 2px 6px rgba(0,0,0,.12); }
     .btn-phone:active { transform: translateY(1px); }
 
+    /* 页脚 */
     footer { margin-top: 40px; font-size: 14px; color: var(--c-muted); line-height: 1.6; }
   </style>
 </head>
 <body>
   <div class="wrap">
+    <!-- 标题 -->
     <div class="save-date">✦ 张智霖 ❤ 陈奕彤 ✦ <br>婚礼邀请函</div>
 
+    <!-- 圆形封面照 -->
     <div class="photo-circle"><img src="images/cover.jpg" alt="封面照"></div>
 
+    <!-- 邀请文案 -->
     <div class="invite-text">
       春风化雨，四季流转；<br>
       因缘际会，我们携手相知。<br>
@@ -116,15 +142,17 @@
       愿欢声笑语，伴随这一天永恒铭记。<br>
     </div>
 
+    <!-- 日期 -->
     <div class="date">2025年9月20日</div>
     <div class="lunar-date">辛丑年八月廿九 · 金秋吉日</div>
 
-    <!-- 已按要求：方形并排照片移动到日期/农历之后 -->
+    <!-- 并排方图 -->
     <div class="pair">
       <div class="sq"><img src="images/square1.jpg" alt="方形照片1"></div>
       <div class="sq"><img src="images/square2.jpg" alt="方形照片2"></div>
     </div>
 
+    <!-- 轮播相册 -->
     <div class="gallery" id="gallery">
       <div class="gallery-track" id="galleryTrack">
         <div class="slide"><img src="images/photo1.jpg" alt="我们的照片1"></div>
@@ -134,37 +162,27 @@
     </div>
     <div class="dots" id="dots"></div>
 
+    <!-- 时间轴流程 -->
     <div class="timeline">
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h18l-2-4h-7l-2-3H6z"/><circle cx="7" cy="16" r="2"/><circle cx="17" cy="16" r="2"/></svg>
-        <div>
-          <div class="step-title">08:30 接亲</div>
-          <div class="step-desc">自此同车同路，朝向同一个家。</div>
-        </div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4"><path d="M3 13h18l-2-4h-7l-2-3H6z"/><circle cx="7" cy="16" r="2"/><circle cx="17" cy="16" r="2"/></svg>
+        <div><div class="step-title">08:30 接亲</div><div class="step-desc">自此同车同路，朝向同一个家。</div></div>
       </div>
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12l2 2 6-6"/><rect x="3" y="8" width="18" height="10" rx="2"/><path d="M7 8V6a5 5 0 0 1 10 0v2"/></svg>
-        <div>
-          <div class="step-title">10:00 迎宾</div>
-          <div class="step-desc">宾朋渐至，笑语盈门，喜气迎人。</div>
-        </div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4"><path d="M8 12l2 2 6-6"/><rect x="3" y="8" width="18" height="10" rx="2"/></svg>
+        <div><div class="step-title">10:00 迎宾</div><div class="step-desc">宾朋渐至，笑语盈门，喜气迎人。</div></div>
       </div>
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><path d="M10.5 10.5l3-3M7 15c2 2 8 2 10 0"/></svg>
-        <div>
-          <div class="step-title">11:30 仪式</div>
-          <div class="step-desc">交换誓言与戒指，愿此心此情，岁岁年年。</div>
-        </div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4"><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/></svg>
+        <div><div class="step-title">11:30 仪式</div><div class="step-desc">交换誓言与戒指，愿此心此情，岁岁年年。</div></div>
       </div>
       <div class="timeline-item">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16M7 8v13M17 8v13M3 21h18"/><path d="M9 12h6"/></svg>
-        <div>
-          <div class="step-title">12:00 午宴</div>
-          <div class="step-desc">与君同席，共品团圆滋味与欢喜。</div>
-        </div>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#2f4f4f" stroke-width="1.4"><path d="M4 3h16M7 8v13M17 8v13M3 21h18"/></svg>
+        <div><div class="step-title">12:00 午宴</div><div class="step-desc">与君同席，共品团圆滋味与欢喜。</div></div>
       </div>
     </div>
 
+    <!-- 地点与联系方式 -->
     <div class="location">
       西安西咸诺富特酒店 · 金湾厅<br>
       我们真诚期盼您的到来，<br>
@@ -176,6 +194,7 @@
       </div>
     </div>
 
+    <!-- 页脚祝福语 -->
     <footer>
       愿山高水远，长伴我们的真心；<br>
       愿岁月静好，铭记我们的誓言。<br>
@@ -184,96 +203,26 @@
   </div>
 
   <script>
-    /*
-     * ========================= 主题应用函数 =========================
-     * 用法：
-     *   applyTheme({
-     *     colors: {                // 颜色分类（按需填写，未填的不变）
-     *       primary:'#234',        // 通用主色（不细分时用它统一替换）
-     *       secondary:'#666',
-     *       muted:'#888',
-     *       bg:'#fffaf0',
-     *       card:'#ffffff',
-     *       btnText:'#fff',
-     *       // 下面是分区色，优先级高于通用色
-     *       title:'#C89EA9',
-     *       body:'#223',
-     *       date:'#1f2d2d',
-     *       lunar:'#6b7280',
-     *       timelineTitle:'#1f2d2d',
-     *       timelineDesc:'#606770',
-     *       btnBg:'#1f2d2d'
-     *     },
-     *     sizes: {                 // 字号（仅填要变的）
-     *       title:'34px', body:'17px', date:'22px', lunar:'14px', stepTitle:'16px', stepDesc:'13px', btn:'15px'
-     *     },
-     *     fonts: {                 // 字体族（可只改某一项）
-     *       title:'"KaiTi", serif',
-     *       body:'"Times New Roman", "Microsoft YaHei", serif'
-     *     },
-     *     radius: '10px'           // 统一圆角（可选）
-     *   });
+    /* 
+     ================== 轮播逻辑 ==================
+     - 自动轮播 + 手动点击圆点切换
+     - 每 4 秒切换一张
      */
-    function applyTheme({ colors = {}, sizes = {}, fonts = {}, radius } = {}){
-      const root = document.documentElement;
-      const set = (k,v)=> v!=null && root.style.setProperty(k, v);
-      // —— 通用色 ——
-      set('--c-primary', colors.primary);
-      set('--c-secondary', colors.secondary);
-      set('--c-muted', colors.muted);
-      set('--c-bg', colors.bg);
-      set('--c-card', colors.card);
-      set('--c-btn-text', colors.btnText);
-      // —— 分区色（优先级更高） ——
-      set('--c-title', colors.title);
-      set('--c-body', colors.body);
-      set('--c-date', colors.date);
-      set('--c-lunar', colors.lunar);
-      set('--c-timeline-title', colors.timelineTitle);
-      set('--c-timeline-desc', colors.timelineDesc);
-      set('--c-btn-bg', colors.btnBg);
-      // —— 字号 ——
-      set('--fs-title', sizes.title);
-      set('--fs-body', sizes.body);
-      set('--fs-date', sizes.date);
-      set('--fs-lunar', sizes.lunar);
-      set('--fs-step-title', sizes.stepTitle);
-      set('--fs-step-desc', sizes.stepDesc);
-      set('--fs-btn', sizes.btn);
-      // —— 字体族 ——
-      set('--ff-title', fonts.title);
-      set('--ff-body', fonts.body);
-      // —— 圆角 ——
-      set('--radius', radius);
-    }
-
-    // 示例：整体更沉稳 + 略放大标题（按需开启）
-    // applyTheme({
-    //   colors:{ primary:'#234', title:'#1f2d2d', btnBg:'#1f2d2d' },
-    //   sizes:{ title:'34px' },
-    //   fonts:{ title:'"KaiTi", serif' },
-    //   radius:'10px'
-    // });
-
-    // =============== 轮播逻辑（保持不变） ===============
     const track = document.getElementById('galleryTrack');
     const dotsWrap = document.getElementById('dots');
     const slides = track.children;
     let index = 0;
-
     function update(){
       track.style.transform = `translateX(${-index * 100}%)`;
       Array.from(dotsWrap.children).forEach((dot,i)=>{ dot.classList.toggle('active', i===index); });
     }
     function go(i){ index = (i+slides.length)%slides.length; update(); }
-
     Array.from(slides).forEach((_,i)=>{
       const d = document.createElement('div');
       d.className = 'dot'+(i===0?' active':'');
       d.addEventListener('click', ()=>go(i));
       dotsWrap.appendChild(d);
     });
-
     setInterval(()=>{ go(index+1) }, 4000);
   </script>
 </body>
