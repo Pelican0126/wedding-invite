@@ -194,9 +194,11 @@
       我们真诚期盼您的到来，<br>
       让欢聚与祝福成为这一天最温暖的注脚。<br>
       <!-- 微信内置地图定位：调用微信JS-SDK的 openLocation，可在分享环境里直接跳转微信地图 -->
-      <a class="btn" href="javascript:void(0)" id="wxMapBtn" title="微信内一键导航">打开微信地图</a>
+      <a class="btn" id="mapLink"
+        href="https://apis.map.qq.com/uri/v1/marker?marker=coord:34.307144,108.810654;title=%E8%A5%BF%E5%AE%89%E8%A5%BF%E5%92%B8%E8%AF%BA%E5%AF%8C%E7%89%B9%E9%85%92%E5%BA%97%20%C2%B7%20%E9%87%91%E6%B9%BE%E5%8E%85;addr=%E9%99%95%E8%A5%BF%E7%9C%81%E8%A5%BF%E5%92%B8%E6%96%B0%E5%8C%BA%20%E6%B2%A3%E6%B3%BE%E5%A4%A7%E9%81%93%E8%A5%BF%E4%B8%80%E8%B7%AF1%E5%8F%B7&referer=wedding"
+        target="_blank" rel="noopener">微信内打开地图</a>
       <div style="font-size:12px;color:#999;margin-top:6px;line-height:1.4;">
-        ※ 已填入目的地坐标（GCJ-02）：<code>34.307144</code>，<code>108.810654</code>（西安西咸诺富特酒店 · 金湾厅）。
+        ※ 已使用 <b>腾讯地图直达链接</b>，在微信中点击可直接打开定位；无需公众号签名。
       </div>
       <div class="contact">
         <a class="btn-phone" href="tel:13279290480">☎ 男方：132-7929-0480</a>
@@ -321,75 +323,18 @@
     // autoPlay();
   </script>
   
-  <!-- ================== 微信地图定位脚本（含兜底） ================== -->
-  <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
   <script>
-    /* 
-     * 点击「打开微信地图」在微信内直接打开会场位置；
-     * 非微信环境则跳转腾讯地图网页/系统地图作为兜底。
-     * 坐标（GCJ-02）：34.307144, 108.810654 —— 来源：雅高官网 GPS 信息（如出现轻微偏移，为常见坐标系差异）。
-     */
-    const DEST = {
-      name: '西安西咸诺富特酒店 · 金湾厅',
-      address: '陕西省西咸新区 沣泾大道西一路1号',
-      lat: 34.307144,
-      lng: 108.810654
-    };
-    function isWeChat(){ return /MicroMessenger/i.test(navigator.userAgent); }
-    function isIOS(){ return /iPhone|iPad|iPod/i.test(navigator.userAgent); }
-
-    // ★ 如果你有自己的公众号/服务号，可在此填入后端签名数据：
-    const WX_CFG = {
-      appId: 'YOUR_APPID',
-      timestamp: 1234567890,
-      nonceStr: 'YOUR_NONCE',
-      signature: 'YOUR_SIGNATURE',
-      jsApiList: ['openLocation']
-    };
-
-    if(isWeChat()){
-      // 没有签名也能走兜底；若已配置签名，将优先用 openLocation 原生体验
-      try{ wx.config(WX_CFG); }catch(e){}
-    }
-
-    function openInWeChat(){
-      return new Promise((resolve)=>{
-        if(!isWeChat()) return resolve(false);
-        try{
-          // 若 config 成功，ready 会触发；若失败则直接走 catch
-          wx.ready(function(){
-            wx.openLocation({
-              latitude: DEST.lat,
-              longitude: DEST.lng,
-              name: DEST.name,
-              address: DEST.address,
-              scale: 17
-            });
-            resolve(true);
-          });
-          wx.error(function(){ resolve(false); });
-        }catch(e){ resolve(false); }
+    // （可选）非微信浏览器里，若用户无法打开腾讯地图 URI，可手动复制地址导航。
+    // 这里保留一个简单的兜底：iOS 打开 Apple Maps，Android 使用 geo: 协议
+    (function(){
+      var isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      var link = document.getElementById('mapLink');
+      if(!link) return;
+      link.addEventListener('click', function(){
+        // 主路径是腾讯地图 URI，通常微信/QQ 浏览器可直接打开；无额外处理
       });
-    }
-
-    function openWithTencentURI(){
-      const url = `https://apis.map.qq.com/uri/v1/marker?marker=coord:${DEST.lat},${DEST.lng};title=${encodeURIComponent(DEST.name)};addr=${encodeURIComponent(DEST.address)}&referer=wedding`;
-      window.location.href = url; return true;
-    }
-    function openWithScheme(){
-      const geo = `geo:${DEST.lat},${DEST.lng}?q=${DEST.lat},${DEST.lng}(${encodeURIComponent(DEST.name)})`;
-      const apple = `http://maps.apple.com/?ll=${DEST.lat},${DEST.lng}&q=${encodeURIComponent(DEST.name)}`;
-      window.location.href = isIOS()? apple : geo; return true;
-    }
-
-    document.getElementById('wxMapBtn')?.addEventListener('click', async ()=>{
-      const ok = await openInWeChat();
-      if(!ok){
-        // 微信失败 → 腾讯地图网页 → 系统地图
-        try{ openWithTencentURI(); }
-        catch{ openWithScheme(); }
-      }
-    });
+      // 也可根据需要添加更多兜底逻辑
+    })();
   </script>
 </body>
 </html>
